@@ -5,7 +5,6 @@
 //  Created by 祝歆韵 on 2017/4/28.
 //  Copyright © 2017年 祝歆韵. All rights reserved.
 //
-
 #include <iostream>
 #include <map>
 #include <queue>
@@ -29,7 +28,7 @@ struct SNode
 };
 
 SNode curState; //当前节点的状态
-map<int, SNode> save; //保存中间节点的数据结构<节点id,节点结构>
+map<int, SNode> save; //保存中间节点的数据结构<节点id, 节点结构>
 int global_id = 0; //节点id通过global_id逐渐增加
 int pour(int i, int j) //判断状态转移（即能否倒酒从一个容器到另一个）
 {
@@ -171,9 +170,9 @@ bool hasExist() //判断是否有重复的中间状态
     return false;
 }
 
-bool isTarget(SNode node) //到达目的状态(4,4,4,0)
+bool isTarget(SNode node) //到达目的状态(3,3,3,3)
 {
-    if( node.state[0] == 4 && node.state[1] == 4 && node.state[2] == 4 && node.state[3] == 0)
+    if( node.state[0] == 3 && node.state[1] == 3 && node.state[2] == 3 && node.state[3] == 3)
         return true;
     else
         return false;
@@ -183,7 +182,7 @@ void show(SNode cur) //根据每个节点的前驱节点pre回溯打印出整个
 {
     map<int, SNode> :: iterator it;
     
-    if(cur.pre == -1)
+    if(cur.pre == -1) //到了根节点
     {
         cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << setw(4) << cur.state[3] << endl;
         return;
@@ -195,6 +194,7 @@ void show(SNode cur) //根据每个节点的前驱节点pre回溯打印出整个
         show(curState);
         cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << setw(4) << cur.state[3] << endl;
         cnt++;
+        
     }
 }
 
@@ -253,3 +253,6 @@ int main()
     cout << "该过程总共用了" << cnt << "步。" <<endl;
     return 0;
 }
+
+
+
