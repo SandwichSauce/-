@@ -14,7 +14,7 @@ int cnt = 0; //定义变量cnt用于计算用了多少步
 //定义每个状态的结构
 struct SNode
 {
-    int state[4]; //状态值
+    int state[3]; //状态值
     int id; //状态的id（产生这个状态的序号）
     int pre; //当前状态的前驱状态id(由于是广度搜索，前驱即广度搜索树中的父节点)
     bool operator < (const SNode & s) const //节点存放时的比较函数
@@ -23,7 +23,7 @@ struct SNode
     }
     bool operator == (const SNode &s) const //判断节点是否相等，当存放在map中时需要判断
     {
-        return (state[0] == s.state[0] ) && (state[1] == s.state[1] ) && (state[2] == s.state[2]) && (state[3] == s.state[3]);
+        return (state[0] == s.state[0] ) && (state[1] == s.state[1] ) && (state[2] == s.state[2]);
     }
 };
 
@@ -41,21 +41,13 @@ int pour(int i, int j) //判断状态转移（即能否倒酒从一个容器到�
     {
         if(j == 1) //如果倒入1号瓶（容量为10斤）
         {
-            empty = 10 - curState.state[j];
+            empty = 5 - curState.state[j];
             if(curState.state[i] < empty)
                 return curState.state[i];
             else
                 return empty;
         }
         else if(j == 2) //如果倒入2号瓶（容量为6斤）
-        {
-            empty = 6 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-        else if(j == 3) //如果倒入3号瓶（容量为3斤）
         {
             empty = 3 - curState.state[j];
             if(curState.state[i] < empty)
@@ -69,21 +61,13 @@ int pour(int i, int j) //判断状态转移（即能否倒酒从一个容器到�
     {
         if(j == 0) //如果倒入0号瓶（容量为12斤）
         {
-            empty = 12 - curState.state[j];
+            empty = 8 - curState.state[j];
             if(curState.state[i] < empty)
                 return curState.state[i];
             else
                 return empty;
         }
         else if(j == 2) //如果倒入2号瓶（容量为6斤）
-        {
-            empty = 6 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-        else if(j == 3) //如果倒入3号瓶（容量为3斤）
         {
             empty = 3 - curState.state[j];
             if(curState.state[i] < empty)
@@ -97,7 +81,7 @@ int pour(int i, int j) //判断状态转移（即能否倒酒从一个容器到�
     {
         if(j == 0) //如果倒入0号瓶（容量为12斤）
         {
-            empty = 12 - curState.state[j];
+            empty = 8 - curState.state[j];
             if(curState.state[i] < empty)
                 return curState.state[i];
             else
@@ -105,43 +89,7 @@ int pour(int i, int j) //判断状态转移（即能否倒酒从一个容器到�
         }
         else if(j == 1) //如果倒入1号瓶（容量为10斤）
         {
-            empty = 10 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-        else if(j == 3) //如果倒入3号瓶（容量为3斤）
-        {
-            empty = 3 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-    }
-    
-    else if(i == 3) //如果从3号瓶倒出（容量为3斤）
-    {
-        if(j == 0) //如果倒入0号瓶（容量为12斤）
-        {
-            empty = 12 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-        else if(j == 1) //如果倒入1号瓶（容量为10斤）
-        {
-            empty = 10 - curState.state[j];
-            if(curState.state[i] < empty)
-                return curState.state[i];
-            else
-                return empty;
-        }
-        else if(j == 2) //如果倒入2号瓶（容量为6斤）
-        {
-            empty = 6 - curState.state[j];
+            empty = 5 - curState.state[j];
             if(curState.state[i] < empty)
                 return curState.state[i];
             else
@@ -170,9 +118,9 @@ bool hasExist() //判断是否有重复的中间状态
     return false;
 }
 
-bool isTarget(SNode node) //到达目的状态(3,3,3,3)
+bool isTarget(SNode node) //到达目的状态(4,4,0)
 {
-    if( node.state[0] == 3 && node.state[1] == 3 && node.state[2] == 3 && node.state[3] == 3)
+    if( node.state[0] == 4 && node.state[1] == 4 && node.state[2] == 0 )
         return true;
     else
         return false;
@@ -184,7 +132,7 @@ void show(SNode cur) //根据每个节点的前驱节点pre回溯打印出整个
     
     if(cur.pre == -1) //到了根节点
     {
-        cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << setw(4) << cur.state[3] << endl;
+        cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << endl;
         return;
     }
     else
@@ -192,7 +140,7 @@ void show(SNode cur) //根据每个节点的前驱节点pre回溯打印出整个
         it = save.lower_bound(cur.pre);
         curState = it -> second;
         show(curState);
-        cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << setw(4) << cur.state[3] << endl;
+        cout << setw(4) << cur.state[0] << setw(4) << cur.state[1] << setw(4) << cur.state[2] << endl;
         cnt++;
         
     }
@@ -205,13 +153,12 @@ int main()
     SNode initState; //初始化状态
     initState.id = global_id++;
     initState.pre = -1;
-    initState.state[0] = 12;
+    initState.state[0] = 8;
     initState.state[1] = 0;
     initState.state[2] = 0;
-    initState.state[3] = 0;
     curState = initState;
     int n = 0;
-    int pre =- 1;
+    int pre = -1;
     //初始化状态如对列并作为中间状态保存在save中
     queue.push(initState);
     pair<int,SNode> p(initState.id, initState);
@@ -221,8 +168,8 @@ int main()
         curState = queue.front();
         queue.pop();
         pre = curState.id;
-        for(i = 0; i < 4; i++)
-            for(j = 0; j < 4; j++)
+        for(i = 0; i < 3; i++)
+            for(j = 0; j < 3; j++)
             {
                 if((n = pour(i,j)) > 0)
                 {
